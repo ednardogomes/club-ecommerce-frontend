@@ -4,8 +4,8 @@ import axios from "axios";
 import { Category } from "../../types/category.types";
 import { env } from "process";
 
-import "./categories.styles.css";
 import CategoryItem from "../category-item/category-item.component";
+import { CategoriesContainer, CategoriesContent } from "./categories.styles";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -26,15 +26,15 @@ const Categories = () => {
   // }, []);
 
   return (
-    <div className="categories-container">
-      <div className="categories-content">
+    <CategoriesContainer>
+      <CategoriesContent>
         <div>
           {categories.map((category) => (
             <CategoryItem category={category} />
           ))}
         </div>
-      </div>
-    </div>
+      </CategoriesContent>
+    </CategoriesContainer>
   );
 };
 
