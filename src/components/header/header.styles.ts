@@ -2,14 +2,12 @@ import styled from "styled-components";
 import Colors from "../../theme/theme.colors";
 
 export const HeaderContainer = styled.div`
-  .header-container {
-    width: 100%;
-    background-color: #212529;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    color: ${Colors.text.white};
-  }
+  width: 100%;
+  background-color: #212529;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  color: ${Colors.text.white};
 `;
 
 export const HeaderTitle = styled.h2`
@@ -30,8 +28,8 @@ export const HeaderItem = styled.div`
   align-items: center;
 
   &:nth-child(1),
-  &:nth-child(1),
-  &:nth-child(1) {
+  &:nth-child(2),
+  &:nth-child(3) {
     margin-right: 40px;
   }
 `;
