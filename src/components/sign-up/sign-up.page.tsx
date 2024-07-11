@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { isEmail } from "validator";
-
 import { FiLogIn } from "react-icons/fi";
+import { addDoc, collection } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import CustomButton from "../custom-button/custom-button.component";
 import CustomInput from "../custom-input/custom-input.component";
@@ -15,8 +16,10 @@ import {
   SignUpInputContainer,
 } from "./sign-up.styles";
 
+import { auth, db } from "../../config/firebase.config";
+
 interface SignUpForm {
-  name: string;
+  firstName: string;
   lastName: string;
   email: string;
   password: string;
@@ -33,11 +36,24 @@ const SignUpPage = () => {
 
   const watchPassword = watch("password");
 
-  const handleSubmitPress = (data: SignUpForm) => {
-    console.log({ data });
+  const handleSubmitPress = async (data: SignUpForm) => {
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      console.log(userCredentials);
+      await addDoc(collection(db, "users"), {
+        id: userCredentials.user.uid,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: userCredentials.user.email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  console.log({ errors });
 
   return (
     <>
@@ -48,12 +64,12 @@ const SignUpPage = () => {
           <SignUpInputContainer>
             <p>Nome</p>
             <CustomInput
-              hasError={!!errors?.name}
+              hasError={!!errors?.firstName}
               placeholder="Digite seu nome"
-              {...register("name", { required: true })}
+              {...register("firstName", { required: true })}
             />
 
-            {errors?.name?.type === "required" && (
+            {errors?.firstName?.type === "required" && (
               <InputErrorMessage>O nome é obrigatório.</InputErrorMessage>
             )}
           </SignUpInputContainer>
