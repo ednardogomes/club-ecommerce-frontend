@@ -15,6 +15,12 @@ import {
   LoginInputContainer,
   LoginSubtitle,
 } from "./login.styles";
+import {
+  AuthError,
+  AuthErrorCodes,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../config/firebase.config";
 
 interface LoginForm {
   email: string;
@@ -24,15 +30,29 @@ interface LoginForm {
 const LoginPage = () => {
   const {
     register,
-    formState: { errors },
     handleSubmit,
+    setError,
+    formState: { errors },
   } = useForm<LoginForm>();
 
-  const handleSubmitPress = (data: any) => {
-    console.log({ data });
+  const handleSubmitPress = async (data: LoginForm) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      // console.log({ userCredentials });
+    } catch (error) {
+      const _error = error as AuthError;
+      console.log(error);
+      if (_error.code === AuthErrorCodes.INVALID_IDP_RESPONSE) {
+        setError("password", { type: "mismatch" });
+        setError("email", { type: "mismatch" });
+        return;
+      }
+    }
   };
-
-  console.log({ errors });
 
   return (
     <>
@@ -69,6 +89,10 @@ const LoginPage = () => {
                 Por Favor, insira um e-mail válido.
               </InputErrorMessage>
             )}
+
+            {errors?.email?.type === "mismatch" && (
+              <InputErrorMessage>E-mail ou senha inválidos.</InputErrorMessage>
+            )}
           </LoginInputContainer>
           <LoginInputContainer>
             <p>Senha</p>
@@ -81,6 +105,10 @@ const LoginPage = () => {
 
             {errors?.password?.type === "required" && (
               <InputErrorMessage>A senha é obrigatória.</InputErrorMessage>
+            )}
+
+            {errors?.password?.type === "mismatch" && (
+              <InputErrorMessage>E-mail ou senha inválidos.</InputErrorMessage>
             )}
           </LoginInputContainer>
 
