@@ -17,7 +17,6 @@ export const CategoriesContent = styled.div`
     "d e";
   grid-gap: 15px;
   padding: 30px;
-
   & div:nth-child(1) {
     grid-area: a;
   }
