@@ -36,11 +36,11 @@ const Categories = () => {
   return (
     <CategoriesContainer>
       <CategoriesContent>
-        <div>
-          {categories.map((category) => (
+        {categories.map((category) => (
+          <div key={category.id}>
             <CategoryItem category={category} />
-          ))}
-        </div>
+          </div>
+        ))}
       </CategoriesContent>
     </CategoriesContainer>
   );
