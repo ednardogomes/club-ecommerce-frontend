@@ -7,6 +7,8 @@ import {
   AuthErrorCodes,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import CustomButton from "../custom-button/custom-button.component";
 import CustomInput from "../custom-input/custom-input.component";
@@ -21,6 +23,7 @@ import {
 } from "./sign-up.styles";
 
 import { auth, db } from "../../config/firebase.config";
+import { UserContext } from "../../contexts/user.context";
 
 interface SignUpForm {
   firstName: string;
@@ -40,6 +43,14 @@ const SignUpPage = () => {
   } = useForm<SignUpForm>();
 
   const watchPassword = watch("password");
+
+  const { isAuthenticated } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/");
+  }, [isAuthenticated]);
 
   const handleSubmitPress = async (data: SignUpForm) => {
     try {
