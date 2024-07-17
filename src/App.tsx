@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -13,11 +13,13 @@ interface AppProps {
   message?: string;
 }
 const App: FunctionComponent<AppProps> = () => {
+  const [isInitializing, setIsInitializing] = useState(true);
   const { isAuthenticated, loginUser, logoutUser } = useContext(UserContext);
   onAuthStateChanged(auth, async (user) => {
     const isSigningOut = isAuthenticated && !user;
     if (isSigningOut) {
-      return logoutUser();
+      logoutUser();
+      return setIsInitializing(false);
     }
 
     const isSigningIn = !isAuthenticated && user;
@@ -27,9 +29,16 @@ const App: FunctionComponent<AppProps> = () => {
       );
 
       const userFromFirestore = querySnapshot.docs[0]?.data();
-      return loginUser(userFromFirestore as any);
+
+      loginUser(userFromFirestore as any);
+
+      return setIsInitializing(false);
     }
+
+    return setIsInitializing(false);
   });
+
+  if (isInitializing) return null;
 
   return (
     <BrowserRouter>
@@ -37,7 +46,7 @@ const App: FunctionComponent<AppProps> = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="login/sign-up" element={<SignUpPage />} />
+        <Route path="/login/sign-up" element={<SignUpPage />} />
       </Routes>
     </BrowserRouter>
   );
