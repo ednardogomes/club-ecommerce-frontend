@@ -9,6 +9,7 @@ import SignUpPage from "./components/sign-up/sign-up.page";
 
 import { auth, db } from "./config/firebase.config";
 import { UserContext } from "./contexts/user.context";
+import { userConverter } from "./components/converters/firestore.converters";
 interface AppProps {
   message?: string;
 }
@@ -25,12 +26,15 @@ const App: FunctionComponent<AppProps> = () => {
     const isSigningIn = !isAuthenticated && user;
     if (isSigningIn) {
       const querySnapshot = await getDocs(
-        query(collection(db, "users"), where("id", "==", user.uid))
+        query(
+          collection(db, "users").withConverter(userConverter),
+          where("id", "==", user.uid)
+        )
       );
 
       const userFromFirestore = querySnapshot.docs[0]?.data();
 
-      loginUser(userFromFirestore as any);
+      loginUser(userFromFirestore);
 
       return setIsInitializing(false);
     }
