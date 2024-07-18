@@ -4,6 +4,7 @@ import { getDocs, collection } from "firebase/firestore";
 import { Category } from "../../types/category.types";
 
 import CategoryItem from "../category-item/category-item.component";
+
 import { CategoriesContainer, CategoriesContent } from "./categories.styles";
 import { db } from "../../config/firebase.config";
 

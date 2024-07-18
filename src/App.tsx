@@ -10,14 +10,18 @@ import SignUpPage from "./components/sign-up/sign-up.page";
 import { auth, db } from "./config/firebase.config";
 import { UserContext } from "./contexts/user.context";
 import { userConverter } from "./components/converters/firestore.converters";
+import Loading from "./components/loading/loading.component";
 interface AppProps {
   message?: string;
 }
 const App: FunctionComponent<AppProps> = () => {
   const [isInitializing, setIsInitializing] = useState(true);
+
   const { isAuthenticated, loginUser, logoutUser } = useContext(UserContext);
+
   onAuthStateChanged(auth, async (user) => {
     const isSigningOut = isAuthenticated && !user;
+
     if (isSigningOut) {
       logoutUser();
       return setIsInitializing(false);
@@ -42,7 +46,7 @@ const App: FunctionComponent<AppProps> = () => {
     return setIsInitializing(false);
   });
 
-  if (isInitializing) return null;
+  if (isInitializing) return <Loading />;
 
   return (
     <BrowserRouter>
