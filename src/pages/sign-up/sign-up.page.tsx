@@ -10,11 +10,11 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import CustomButton from "../custom-button/custom-button.component";
-import CustomInput from "../custom-input/custom-input.component";
-import Header from "../header/header.component";
-import InputErrorMessage from "../input-error-message/input-error-message.component";
-import Loading from "../loading/loading.component";
+import CustomButton from "../../components/custom-button/custom-button.component";
+import CustomInput from "../../components/custom-input/custom-input.component";
+import Header from "../../components/header/header.component";
+import InputErrorMessage from "../../components/input-error-message/input-error-message.component";
+import Loading from "../../components/loading/loading.component";
 
 import {
   SignUpContainer,
