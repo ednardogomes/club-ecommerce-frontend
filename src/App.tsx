@@ -14,6 +14,7 @@ import { UserContext } from "./contexts/user.context";
 import { userConverter } from "./components/converters/firestore.converters";
 import Loading from "./components/loading/loading.component";
 import CategoryDetailsPage from "./pages/category-details/category-details.page";
+import Cart from "./components/cart/cart.component";
 interface AppProps {
   message?: string;
 }
@@ -61,6 +62,7 @@ const App: FunctionComponent<AppProps> = () => {
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/login/sign-up" element={<SignUpPage />} />
       </Routes>
+      <Cart />
     </BrowserRouter>
   );
 };
