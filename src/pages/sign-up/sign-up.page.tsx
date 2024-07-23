@@ -2,12 +2,15 @@ import { useForm } from "react-hook-form";
 import { isEmail } from "validator";
 import { FiLogIn } from "react-icons/fi";
 import { addDoc, collection } from "firebase/firestore";
+import { useSelector } from "react-redux";
+
 import {
   AuthError,
   AuthErrorCodes,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { useContext, useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CustomButton from "../../components/custom-button/custom-button.component";
@@ -24,7 +27,6 @@ import {
 } from "./sign-up.styles";
 
 import { auth, db } from "../../config/firebase.config";
-import { UserContext } from "../../contexts/user.context";
 
 interface SignUpForm {
   firstName: string;
@@ -47,7 +49,9 @@ const SignUpPage = () => {
 
   const watchPassword = watch("password");
 
-  const { isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated } = useSelector(
+    (rootReducer: any) => rootReducer.userReducer
+  );
 
   const navigate = useNavigate();
 

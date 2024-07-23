@@ -1,7 +1,8 @@
-import { FunctionComponent, useContext, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { useDispatch } from "react-redux";
 
 import HomePage from "./pages/home/home.page";
 import LoginPage from "./pages/login/login.page";
@@ -10,7 +11,6 @@ import ExplorePage from "./pages/explore/explore.page";
 import CheckoutPage from "./pages/checkout/checkout.page";
 
 import { auth, db } from "./config/firebase.config";
-import { UserContext } from "./contexts/user.context";
 import { userConverter } from "./components/converters/firestore.converters";
 
 import Loading from "./components/loading/loading.component";
@@ -18,6 +18,7 @@ import CategoryDetailsPage from "./pages/category-details/category-details.page"
 import Cart from "./components/cart/cart.component";
 import AuthenticationGuard from "./components/guards/authetication.guard";
 import PaymenteConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
+import { useSelector } from "react-redux";
 
 interface AppProps {
   message?: string;
@@ -25,34 +26,41 @@ interface AppProps {
 const App: FunctionComponent<AppProps> = () => {
   const [isInitializing, setIsInitializing] = useState(true);
 
-  const { isAuthenticated, loginUser, logoutUser } = useContext(UserContext);
+  const dispatch = useDispatch();
 
-  onAuthStateChanged(auth, async (user) => {
-    const isSigningOut = isAuthenticated && !user;
+  const { isAuthenticated } = useSelector(
+    (rootReducer: any) => rootReducer.userReducer
+  );
 
-    if (isSigningOut) {
-      logoutUser();
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      const isSigningOut = isAuthenticated && !user;
+
+      if (isSigningOut) {
+        dispatch({ type: "LOGOUT_USER" });
+
+        return setIsInitializing(false);
+      }
+
+      const isSigningIn = !isAuthenticated && user;
+      if (isSigningIn) {
+        const querySnapshot = await getDocs(
+          query(
+            collection(db, "users").withConverter(userConverter),
+            where("id", "==", user.uid)
+          )
+        );
+
+        const userFromFirestore = querySnapshot.docs[0]?.data();
+
+        dispatch({ type: "LOGIN_USER", payload: userFromFirestore });
+
+        return setIsInitializing(false);
+      }
+
       return setIsInitializing(false);
-    }
-
-    const isSigningIn = !isAuthenticated && user;
-    if (isSigningIn) {
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, "users").withConverter(userConverter),
-          where("id", "==", user.uid)
-        )
-      );
-
-      const userFromFirestore = querySnapshot.docs[0]?.data();
-
-      loginUser(userFromFirestore);
-
-      return setIsInitializing(false);
-    }
-
-    return setIsInitializing(false);
-  });
+    });
+  }, [dispatch]);
 
   if (isInitializing) return <Loading />;
 

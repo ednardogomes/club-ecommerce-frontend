@@ -25,10 +25,10 @@ import {
 } from "./login.styles";
 
 import { auth, db, googleProvider } from "../../config/firebase.config";
-import { UserContext } from "../../contexts/user.context";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 interface LoginForm {
   email: string;
@@ -45,8 +45,12 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated } = useSelector(
+    (rootReducer: any) => rootReducer.userReducer
+  );
+
   const navigate = useNavigate();
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
@@ -61,6 +65,7 @@ const LoginPage = () => {
         data.email,
         data.password
       );
+      console.log(userCredentials);
     } catch (error) {
       const _error = error as AuthError;
 
