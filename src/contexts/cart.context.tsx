@@ -1,6 +1,7 @@
 import React, {
   createContext,
   FunctionComponent,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -39,7 +40,21 @@ const CartContextProvider: FunctionComponent<CartContextProviderProps> = ({
   children,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [products, setProducts] = useState<CartProduct[]>([]);
+  const [products, setProducts] = useState<CartProduct[]>(() => {
+    try {
+      const productsFromLocalStorage = localStorage.getItem("cartProducts");
+      return productsFromLocalStorage
+        ? JSON.parse(productsFromLocalStorage)
+        : [];
+    } catch (error) {
+      console.error("Failed to parse products from local storage", error);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cartProducts", JSON.stringify(products));
+  }, [products]);
 
   const productsTotalPrice = useMemo(() => {
     return products.reduce((acc, currentProduct) => {
@@ -102,6 +117,7 @@ const CartContextProvider: FunctionComponent<CartContextProviderProps> = ({
         .filter((product) => product.quantity > 0)
     );
   };
+
 
   return (
     <CartContext.Provider
