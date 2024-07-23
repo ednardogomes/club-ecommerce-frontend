@@ -17,6 +17,7 @@ import Loading from "./components/loading/loading.component";
 import CategoryDetailsPage from "./pages/category-details/category-details.page";
 import Cart from "./components/cart/cart.component";
 import AuthenticationGuard from "./components/guards/authetication.guard";
+import PaymenteConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
 
 interface AppProps {
   message?: string;
@@ -68,6 +69,10 @@ const App: FunctionComponent<AppProps> = () => {
               <CheckoutPage />
             </AuthenticationGuard>
           }
+        />
+        <Route
+          path="/payment-confirmation"
+          element={<PaymenteConfirmationPage />}
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
