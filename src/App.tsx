@@ -12,14 +12,14 @@ import CheckoutPage from "./pages/checkout/checkout.page";
 
 import { auth, db } from "./config/firebase.config";
 import { userConverter } from "./components/converters/firestore.converters";
+import { useAppSelector } from "./components/hooks/redux.hooks";
 
 import Loading from "./components/loading/loading.component";
 import CategoryDetailsPage from "./pages/category-details/category-details.page";
 import Cart from "./components/cart/cart.component";
 import AuthenticationGuard from "./components/guards/authetication.guard";
 import PaymenteConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
-import { useSelector } from "react-redux";
-import { loginUser, logout } from "./store/user/user.actions";
+import { loginUser, logoutUser } from "./store/user/user.actions";
 
 interface AppProps {
   message?: string;
@@ -29,8 +29,8 @@ const App: FunctionComponent<AppProps> = () => {
 
   const dispatch = useDispatch();
 
-  const { isAuthenticated } = useSelector(
-    (rootReducer: any) => rootReducer.userReducer
+  const { isAuthenticated } = useAppSelector(
+    (rootReducer) => rootReducer.userReducer
   );
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const App: FunctionComponent<AppProps> = () => {
       const isSigningOut = isAuthenticated && !user;
 
       if (isSigningOut) {
-        dispatch(logout());
+        dispatch(logoutUser());
 
         return setIsInitializing(false);
       }

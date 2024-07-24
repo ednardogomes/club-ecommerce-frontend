@@ -2,9 +2,10 @@ import { BsCart3 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useContext } from "react";
+import { logoutUser } from "../../store/user/user.actions";
 
 import { auth } from "../../config/firebase.config";
-import { logout } from "../../store/user/user.actions";
+
 import { CartContext } from "../../contexts/cart.context";
 
 import {
@@ -14,17 +15,16 @@ import {
   HeaderTitle,
 } from "./header.styles";
 
-import { useSelector } from "react-redux";
-
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../hooks/redux.hooks";
 
 const Header = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  const { isAuthenticated } = useSelector(
-    (rootReducer: any) => rootReducer.userReducer
+  const { isAuthenticated } = useAppSelector(
+    (rootReducer) => rootReducer.userReducer
   );
 
   const { toggleCart, productsCount } = useContext(CartContext);
@@ -46,7 +46,7 @@ const Header = () => {
   };
 
   const handleSignOutClick = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
     signOut(auth);
   };
 

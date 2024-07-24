@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { isEmail } from "validator";
 import { FiLogIn } from "react-icons/fi";
 import { addDoc, collection } from "firebase/firestore";
-import { useSelector } from "react-redux";
 
 import {
   AuthError,
@@ -27,6 +26,7 @@ import {
 } from "./sign-up.styles";
 
 import { auth, db } from "../../config/firebase.config";
+import { useAppSelector } from "../../components/hooks/redux.hooks";
 
 interface SignUpForm {
   firstName: string;
@@ -49,8 +49,8 @@ const SignUpPage = () => {
 
   const watchPassword = watch("password");
 
-  const { isAuthenticated } = useSelector(
-    (rootReducer: any) => rootReducer.userReducer
+  const { isAuthenticated } = useAppSelector(
+    (rootReducer) => rootReducer.userReducer
   );
 
   const navigate = useNavigate();
