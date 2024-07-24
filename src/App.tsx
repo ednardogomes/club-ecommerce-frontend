@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -19,6 +19,7 @@ import Cart from "./components/cart/cart.component";
 import AuthenticationGuard from "./components/guards/authetication.guard";
 import PaymenteConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
 import { useSelector } from "react-redux";
+import { loginUser, logout } from "./store/user/user.actions";
 
 interface AppProps {
   message?: string;
@@ -37,7 +38,7 @@ const App: FunctionComponent<AppProps> = () => {
       const isSigningOut = isAuthenticated && !user;
 
       if (isSigningOut) {
-        dispatch({ type: "LOGOUT_USER" });
+        dispatch(logout());
 
         return setIsInitializing(false);
       }
@@ -53,7 +54,7 @@ const App: FunctionComponent<AppProps> = () => {
 
         const userFromFirestore = querySnapshot.docs[0]?.data();
 
-        dispatch({ type: "LOGIN_USER", payload: userFromFirestore });
+        dispatch(loginUser(userFromFirestore));
 
         return setIsInitializing(false);
       }

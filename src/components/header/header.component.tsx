@@ -4,6 +4,8 @@ import { signOut } from "firebase/auth";
 import { useContext } from "react";
 
 import { auth } from "../../config/firebase.config";
+import { logout } from "../../store/user/user.actions";
+import { CartContext } from "../../contexts/cart.context";
 
 import {
   HeaderContainer,
@@ -12,7 +14,6 @@ import {
   HeaderTitle,
 } from "./header.styles";
 
-import { CartContext } from "../../contexts/cart.context";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
@@ -45,7 +46,7 @@ const Header = () => {
   };
 
   const handleSignOutClick = () => {
-    dispatch({ type: "LOGOUT_USER" });
+    dispatch(logout());
     signOut(auth);
   };
 
