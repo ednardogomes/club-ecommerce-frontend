@@ -19,7 +19,7 @@ import CategoryDetailsPage from "./pages/category-details/category-details.page"
 import Cart from "./components/cart/cart.component";
 import AuthenticationGuard from "./components/guards/authetication.guard";
 import PaymenteConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
-import { loginUser, logoutUser } from "./store/user/user.actions";
+import { loginUser, logoutUser } from "./store/reducers/user/user.actions";
 
 interface AppProps {
   message?: string;

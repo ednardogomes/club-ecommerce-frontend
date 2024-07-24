@@ -2,7 +2,7 @@ import { BsCart3 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useContext } from "react";
-import { logoutUser } from "../../store/user/user.actions";
+import { logoutUser } from "../../store/reducers/user/user.actions";
 
 import { auth } from "../../config/firebase.config";
 
