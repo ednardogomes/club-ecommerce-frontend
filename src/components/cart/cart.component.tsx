@@ -1,5 +1,7 @@
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent } from "react";
 import { BsCartCheck } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import {
   CartContainer,
@@ -10,17 +12,20 @@ import {
 } from "./cart.styles";
 
 import CustomButton from "../custom-button/custom-button.component";
-
-import { CartContext } from "../../contexts/cart.context";
 import CartItem from "../cart-item/cart-item.component";
-import { useNavigate } from "react-router-dom";
+
 import { useAppSelector } from "../hooks/redux.hooks";
-import { useDispatch } from "react-redux";
 import { toggleCart } from "../../store/reducers/cart/cart.actions";
+import {
+  selectProductsCount,
+  selectProductsTotalPrice,
+} from "../../store/reducers/cart/cart.selectors";
 
 const Cart: FunctionComponent = () => {
   const { isVisible, products } = useAppSelector((state) => state.cartReducer);
-  const { productsTotalPrice, productsCount } = useContext(CartContext);
+
+  const productsTotalPrice = useAppSelector(selectProductsTotalPrice);
+  const productsCount = useAppSelector(selectProductsCount);
 
   const navigate = useNavigate();
 

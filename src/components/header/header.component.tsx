@@ -1,14 +1,12 @@
 import { BsCart3 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { useContext } from "react";
 
 import { logoutUser } from "../../store/reducers/user/user.actions";
 import { toggleCart } from "../../store/reducers/cart/cart.actions";
-
 import { auth } from "../../config/firebase.config";
-
-import { CartContext } from "../../contexts/cart.context";
+import { useSelector } from "react-redux";
+import { selectProductsCount } from "../../store/reducers/cart/cart.selectors";
 
 import {
   HeaderContainer,
@@ -29,7 +27,7 @@ const Header = () => {
     (rootReducer) => rootReducer.userReducer
   );
 
-  const { productsCount } = useContext(CartContext);
+  const productsCount = useSelector(selectProductsCount);
 
   const handleLogoClick = () => {
     navigate("/");
