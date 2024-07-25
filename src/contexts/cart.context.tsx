@@ -93,31 +93,15 @@ const CartContextProvider: FunctionComponent<CartContextProviderProps> = ({
   };
 
   const removeProductFromCart = (productId: string) => {
-    setProducts((products) =>
-      products.filter((product) => product.id !== productId)
-    );
+    setProducts((products) => products);
   };
 
   const increaseProductQuantity = (productId: string) => {
-    setProducts((products) =>
-      products.map((product) =>
-        product.id === productId
-          ? { ...product, quantity: product.quantity + 1 }
-          : product
-      )
-    );
+    setProducts((products) => products);
   };
 
   const decreaseProductQuantity = (productId: string) => {
-    setProducts((products) =>
-      products
-        .map((product) =>
-          product.id === productId
-            ? { ...product, quantity: product.quantity - 1 }
-            : product
-        )
-        .filter((product) => product.quantity > 0)
-    );
+    setProducts((products) => products);
   };
 
   const clearProducts = () => {
