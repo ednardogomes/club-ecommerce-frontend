@@ -1,12 +1,29 @@
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./root-reducer";
 import logger from "redux-logger";
+// @ts-ignore
+import storage from "redux-persist/lib/storage";
+// @ts-ignore
+import persistReducer from "redux-persist/es/persistReducer";
+// @ts-ignore
+import persistStore from "redux-persist/es/persistStore";
 
-const store = configureStore({
-  reducer: rootReducer,
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["cartReducer"],
+};
+
+const persistRootReducer: typeof rootReducer = persistReducer(
+  persistConfig,
+  rootReducer
+);
+
+export const store = configureStore({
+  reducer: persistRootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export const persistedStore = persistStore(store);
 
-export default store;
+export type RootState = ReturnType<typeof store.getState>;
