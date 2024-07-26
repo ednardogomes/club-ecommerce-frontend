@@ -17,7 +17,7 @@ export const addProductToCart = (payload: Product): AddProductToCart => ({
   payload,
 });
 
-interface RemoveProductFromCart {
+export interface RemoveProductFromCart {
   type: typeof CartActionTypes.removeProductsFromCart;
   payload: String;
 }

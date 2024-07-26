@@ -17,11 +17,12 @@ import {
 
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../hooks/redux.hooks";
+import { AppDispatch } from "../../store/store";
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { isAuthenticated } = useAppSelector(
     (rootReducer) => rootReducer.userReducer

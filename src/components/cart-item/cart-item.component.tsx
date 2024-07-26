@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { AiOutlinePlus, AiOutlineClose, AiOutlineMinus } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 
 import {
   CartItemContainer,
@@ -8,21 +9,22 @@ import {
   CartItemQuantity,
   RemoveButton,
 } from "./cart-item.styles";
+
 import CartProduct from "../../types/types.cart";
 
-import { useDispatch } from "react-redux";
 import {
-  decreaseCartProductQuantity,
-  increaseCartProductQuantity,
   removeProductFromCart,
+  increaseCartProductQuantity,
+  decreaseCartProductQuantity,
 } from "../../store/reducers/cart/cart.actions";
+import { AppDispatch } from "../../store/store";
 
 interface CartItemProps {
   product: CartProduct;
 }
 
 const CartItem: FunctionComponent<CartItemProps> = ({ product }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleRemoveFromCart = () => {
     dispatch(removeProductFromCart(product.id));

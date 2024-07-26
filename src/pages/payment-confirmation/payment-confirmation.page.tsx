@@ -19,9 +19,10 @@ import {
 import Colors from "../../theme/theme.colors";
 
 import { clearCartProducts } from "../../store/reducers/cart/cart.actions";
+import { AppDispatch } from "../../store/store";
 
 const PaymenteConfirmationPage: FunctionComponent = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();

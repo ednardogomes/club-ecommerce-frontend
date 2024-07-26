@@ -15,7 +15,6 @@ import Loading from "../loading/loading.component";
 
 import { useAppSelector } from "../hooks/redux.hooks";
 import { selectProductsTotalPrice } from "../../store/reducers/cart/cart.selectors";
-
 import CartProduct from "../../types/types.cart";
 
 const Checkout: FunctionComponent = () => {

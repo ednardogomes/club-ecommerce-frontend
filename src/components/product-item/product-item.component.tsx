@@ -13,12 +13,13 @@ import Product from "../../types/product.types";
 import CustomButton from "../custom-button/custom-button.component";
 
 import { addProductToCart } from "../../store/reducers/cart/cart.actions";
+import { AppDispatch } from "../../store/store";
 interface ProductItemProps {
   product: Product;
 }
 
 const ProductItem: FunctionComponent<ProductItemProps> = ({ product }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleAddToCartClick = () => {
     dispatch(addProductToCart(product));
