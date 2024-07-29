@@ -18,7 +18,7 @@ import {
 
 import Colors from "../../theme/theme.colors";
 
-import { clearCartProducts } from "../../store/reducers/cart/cart.actions";
+import { clearCartProducts } from "../../../src/store/toolkit/cart/cart.slice";
 import { AppDispatch } from "../../store/store";
 
 const PaymenteConfirmationPage: FunctionComponent = () => {

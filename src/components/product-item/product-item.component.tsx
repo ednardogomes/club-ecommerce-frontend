@@ -12,7 +12,7 @@ import Product from "../../types/product.types";
 
 import CustomButton from "../custom-button/custom-button.component";
 
-import { addProductToCart } from "../../store/reducers/cart/cart.actions";
+import { addProductToCart } from "../../../src/store/toolkit/cart/cart.slice";
 import { AppDispatch } from "../../store/store";
 interface ProductItemProps {
   product: Product;

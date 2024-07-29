@@ -14,13 +14,10 @@ const persistConfig = {
   whitelist: ["cartReducer"],
 };
 
-const persistRootReducer: typeof rootReducer = persistReducer(
-  persistConfig,
-  rootReducer
-);
+const persistRootReduce = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistRootReducer,
+  reducer: persistRootReduce,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 

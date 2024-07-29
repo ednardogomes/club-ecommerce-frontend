@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { fetchCategories } from "../../store/category/category.actions";
 import { AppDispatch } from "../../store/store";
 import { useAppSelector } from "../hooks/redux.hooks";
+import { Category } from "../../types/category.types";
 
 const Categories = () => {
   const { categories, isLoading } = useAppSelector(
@@ -25,7 +26,7 @@ const Categories = () => {
     <CategoriesContainer>
       {isLoading && <Loading />}
       <CategoriesContent>
-        {categories.map((category) => (
+        {categories.map((category: Category) => (
           <div key={category.id}>
             <CategoryItem category={category} />
           </div>
