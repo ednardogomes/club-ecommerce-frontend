@@ -15,13 +15,12 @@ import CustomButton from "../custom-button/custom-button.component";
 import CartItem from "../cart-item/cart-item.component";
 
 import { useAppSelector } from "../hooks/redux.hooks";
-import { toggleCart } from "../../../src/store/toolkit/cart/cart.slice";
+import { toggleCart } from "../../store/reducers/cart/cart.actions";
 import {
   selectProductsCount,
   selectProductsTotalPrice,
 } from "../../store/reducers/cart/cart.selectors";
 import { AppDispatch } from "../../store/store";
-import CartProduct from "../../types/types.cart";
 
 const Cart: FunctionComponent = () => {
   const { isVisible, products } = useAppSelector((state) => state.cartReducer);
@@ -48,7 +47,7 @@ const Cart: FunctionComponent = () => {
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
 
-        {products.map((product: CartProduct) => (
+        {products.map((product) => (
           <CartItem key={product.id} product={product} />
         ))}
 

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 
 import { logoutUser } from "../../store/reducers/user/user.actions";
-import { toggleCart } from "../../../src/store/toolkit/cart/cart.slice";
+import { toggleCart } from "../../store/reducers/cart/cart.actions";
 import { auth } from "../../config/firebase.config";
 import { useSelector } from "react-redux";
 import { selectProductsCount } from "../../store/reducers/cart/cart.selectors";

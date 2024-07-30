@@ -16,7 +16,7 @@ import {
   removeProductFromCart,
   increaseCartProductQuantity,
   decreaseCartProductQuantity,
-} from "../../../src/store/toolkit/cart/cart.slice";
+} from "../../store/reducers/cart/cart.actions";
 import { AppDispatch } from "../../store/store";
 
 interface CartItemProps {

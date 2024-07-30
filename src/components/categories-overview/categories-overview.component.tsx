@@ -8,7 +8,6 @@ import { useAppSelector } from "../hooks/redux.hooks";
 import { useDispatch } from "react-redux";
 import { fetchCategories } from "../../store/category/category.actions";
 import { AppDispatch } from "../../store/store";
-import { Category } from "../../types/category.types";
 
 const CategoriesOverview: FunctionComponent = () => {
   const { categories, isLoading } = useAppSelector(
@@ -27,7 +26,7 @@ const CategoriesOverview: FunctionComponent = () => {
 
   return (
     <Container>
-      {categories.map((category: Category) => (
+      {categories.map((category) => (
         <CategoryOverview key={category.id} category={category} />
       ))}
     </Container>
